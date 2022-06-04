@@ -107,5 +107,37 @@ class MovieView(Resource):
         return "", 204
 
 
+@director_ns.route('/')
+class DirectorsView(Resource):
+    """ Вьюшка для получения get запроса для режиссеров """
+    def get(self):
+        director = Director.query.all()
+        return DirectorSchema(many=True).dump(director), 200
+
+
+@director_ns.route('/<int:bid>')
+class DirectorView(Resource):
+    """ Вьюшка для получения get запроса для одного режиссера"""
+    def get(self, bid):
+        one_director = Director.query.get(bid)
+        return DirectorSchema().dump(one_director), 200
+
+
+@genre_ns.route('/')
+class GenresView(Resource):
+    """ Вьюшка для получения get запроса для жанров """
+    def get(self):
+        genre = Genre.query.all()
+        return GenreSchema(many=True).dump(genre), 200
+
+
+@genre_ns.route('/<int:bid>')
+class GenreView(Resource):
+    """ Вьюшка для получения get запроса для одного жанра"""
+    def get(self, bid):
+        one_genre = Genre.query.get(bid)
+        return GenreSchema().dump(one_genre), 200
+
+
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.run(debug=False)
